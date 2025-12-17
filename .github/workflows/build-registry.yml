@@ -30,6 +30,9 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Install dependencies
+        run: pip install jsonschema
+
       - name: Validate and build
         run: python .github/workflows/build_registry.py
 

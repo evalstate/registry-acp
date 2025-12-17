@@ -7,6 +7,12 @@ import re
 import sys
 from pathlib import Path
 
+try:
+    import jsonschema
+    HAS_JSONSCHEMA = True
+except ImportError:
+    HAS_JSONSCHEMA = False
+
 REGISTRY_VERSION = "1.0.0"
 SKIP_DIRS = {".claude", ".git", ".github", ".idea", "__pycache__", "dist"}
 REQUIRED_FIELDS = {"id", "name", "version", "description", "distribution"}
@@ -21,7 +27,7 @@ VALID_PLATFORMS = {
 }
 
 # Can be overridden via environment variable
-DEFAULT_BASE_URL = "https://github.com/anthropics/acp-registry/releases/latest/download"
+DEFAULT_BASE_URL = "https://github.com/agentclientprotocol/registry/releases/latest/download"
 
 # Icon requirements
 PREFERRED_ICON_SIZE = 16
@@ -69,9 +75,47 @@ def get_base_url():
     return os.environ.get("REGISTRY_BASE_URL", DEFAULT_BASE_URL)
 
 
-def validate_agent(agent: dict, agent_dir: str) -> list[str]:
+def load_schema(registry_dir: Path) -> dict | None:
+    """Load agent.schema.json if available."""
+    schema_path = registry_dir / "agent.schema.json"
+    if not schema_path.exists():
+        return None
+    try:
+        with open(schema_path) as f:
+            return json.load(f)
+    except (json.JSONDecodeError, OSError) as e:
+        print(f"Warning: Could not load agent.schema.json: {e}")
+        return None
+
+
+def validate_against_schema(agent: dict, schema: dict) -> list[str]:
+    """Validate agent against JSON schema."""
+    if not HAS_JSONSCHEMA:
+        return []
+
+    errors = []
+    try:
+        jsonschema.validate(instance=agent, schema=schema)
+    except jsonschema.ValidationError as e:
+        # Get the path to the error
+        path = ".".join(str(p) for p in e.absolute_path) if e.absolute_path else "root"
+        errors.append(f"Schema validation error at '{path}': {e.message}")
+    except jsonschema.SchemaError as e:
+        errors.append(f"Invalid schema: {e.message}")
+
+    return errors
+
+
+def validate_agent(agent: dict, agent_dir: str, schema: dict | None = None) -> list[str]:
     """Validate agent.json and return list of errors."""
     errors = []
+
+    # Validate against JSON schema first
+    if schema is not None:
+        schema_errors = validate_against_schema(agent, schema)
+        if schema_errors:
+            errors.extend(schema_errors)
+            return errors  # Return early if schema validation fails
 
     # Check required fields
     missing = REQUIRED_FIELDS - set(agent.keys())
@@ -142,6 +186,12 @@ def build_registry():
     seen_ids = {}
     has_errors = False
 
+    # Load schema for validation
+    schema = load_schema(registry_dir)
+    if schema and not HAS_JSONSCHEMA:
+        print("Warning: jsonschema not installed, skipping schema validation")
+        print("  Install with: pip install jsonschema")
+
     for agent_dir in sorted(registry_dir.iterdir()):
         if not agent_dir.is_dir() or agent_dir.name in SKIP_DIRS:
             continue
@@ -161,7 +211,7 @@ def build_registry():
             continue
 
         # Validate agent
-        errors = validate_agent(agent, agent_dir.name)
+        errors = validate_agent(agent, agent_dir.name, schema)
         if errors:
             print(f"Error: {agent_dir.name}/agent.json validation failed:")
             for error in errors:
