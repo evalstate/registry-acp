@@ -1,7 +1,7 @@
 {
   "id": "mistral-vibe",
   "name": "Mistral Vibe",
-  "version": "1.3.0",
+  "version": "1.3.3",
   "description": "Mistral's open-source coding assistant",
   "repository": "https://github.com/mistralai/mistral-vibe",
   "authors": ["Mistral AI"],
@@ -10,27 +10,27 @@
   "distribution": {
     "binary": {
       "darwin-aarch64": {
-        "archive": "https://github.com/mistralai/mistral-vibe/releases/download/v1.3.0/vibe-acp-darwin-aarch64-1.3.0.zip",
+        "archive": "https://github.com/mistralai/mistral-vibe/releases/download/v1.3.3/vibe-acp-darwin-aarch64-1.3.3.zip",
         "cmd": "./vibe-acp"
       },
       "darwin-x86_64": {
-        "archive": "https://github.com/mistralai/mistral-vibe/releases/download/v1.3.0/vibe-acp-darwin-x86_64-1.3.0.zip",
+        "archive": "https://github.com/mistralai/mistral-vibe/releases/download/v1.3.3/vibe-acp-darwin-x86_64-1.3.3.zip",
         "cmd": "./vibe-acp"
       },
       "linux-aarch64": {
-        "archive": "https://github.com/mistralai/mistral-vibe/releases/download/v1.3.0/vibe-acp-linux-aarch64-1.3.0.zip",
+        "archive": "https://github.com/mistralai/mistral-vibe/releases/download/v1.3.3/vibe-acp-linux-aarch64-1.3.3.zip",
         "cmd": "./vibe-acp"
       },
       "linux-x86_64": {
-        "archive": "https://github.com/mistralai/mistral-vibe/releases/download/v1.3.0/vibe-acp-linux-x86_64-1.3.0.zip",
+        "archive": "https://github.com/mistralai/mistral-vibe/releases/download/v1.3.3/vibe-acp-linux-x86_64-1.3.3.zip",
         "cmd": "./vibe-acp"
       },
       "windows-aarch64": {
-        "archive": "https://github.com/mistralai/mistral-vibe/releases/download/v1.3.0/vibe-acp-windows-aarch64-1.3.0.zip",
+        "archive": "https://github.com/mistralai/mistral-vibe/releases/download/v1.3.3/vibe-acp-windows-aarch64-1.3.3.zip",
         "cmd": "./vibe-acp.exe"
       },
       "windows-x86_64": {
-        "archive": "https://github.com/mistralai/mistral-vibe/releases/download/v1.3.0/vibe-acp-windows-x86_64-1.3.0.zip",
+        "archive": "https://github.com/mistralai/mistral-vibe/releases/download/v1.3.3/vibe-acp-windows-x86_64-1.3.3.zip",
         "cmd": "./vibe-acp.exe"
       }
     }
