@@ -240,7 +240,8 @@ def check_agent_version(
 
     elif "binary" in distribution:
         if not repository:
-            return None, UpdateError(agent_id, "No repository URL for binary distribution")
+            # No repository URL means we can't check for updates automatically
+            return None, None
 
         latest_version, assets = get_github_latest_release(repository)
         if not latest_version:
