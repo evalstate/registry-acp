@@ -38,6 +38,8 @@ jobs:
     name: Upload to S3
     needs: build
     runs-on: ubuntu-latest
+    env:
+      S3_PREFIX: registry/v1
 
     steps:
       - uses: actions/checkout@v4
@@ -66,7 +68,7 @@ jobs:
           S3_ENDPOINT: ${{ secrets.S3_ENDPOINT }}
           S3_BUCKET: ${{ secrets.S3_BUCKET }}
         run: |
-          aws s3 sync dist/ "s3://${S3_BUCKET}/${{ steps.version.outputs.version }}/" \
+          aws s3 sync dist/ "s3://${S3_BUCKET}/${S3_PREFIX}/${{ steps.version.outputs.version }}/" \
             --endpoint-url "${S3_ENDPOINT}" \
             --cache-control "public, max-age=31536000, immutable"
 
@@ -75,7 +77,7 @@ jobs:
           S3_ENDPOINT: ${{ secrets.S3_ENDPOINT }}
           S3_BUCKET: ${{ secrets.S3_BUCKET }}
         run: |
-          aws s3 sync dist/ "s3://${S3_BUCKET}/latest/" \
+          aws s3 sync dist/ "s3://${S3_BUCKET}/${S3_PREFIX}/latest/" \
             --endpoint-url "${S3_ENDPOINT}" \
             --cache-control "public, max-age=300" \
             --delete
@@ -86,5 +88,5 @@ jobs:
         run: |
           echo "## Uploaded to S3" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "Versioned: \`${{ steps.version.outputs.version }}/\`" >> "$GITHUB_STEP_SUMMARY"
-          echo "Latest: \`latest/\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "Versioned: \`${S3_PREFIX}/${{ steps.version.outputs.version }}/\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "Latest: \`${S3_PREFIX}/latest/\`" >> "$GITHUB_STEP_SUMMARY"
