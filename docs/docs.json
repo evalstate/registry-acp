@@ -1,0 +1,78 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "maple",
+  "name": "Agent Client Protocol Registry",
+  "description": "Official registry of authenticated ACP agents",
+  "colors": {
+    "primary": "#0084d1",
+    "light": "#00bcff",
+    "dark": "#0084d1"
+  },
+  "background": {
+    "color": {
+      "light": "#f8f8f6",
+      "dark": "#12141A"
+    }
+  },
+  "fonts": {
+    "heading": {
+      "family": "Lora",
+      "format": "woff2"
+    },
+    "body": {
+      "family": "Public Sans",
+      "format": "woff2"
+    }
+  },
+  "favicon": {
+    "light": "/logo/fav-light.png",
+    "dark": "/logo/fav-dark.png"
+  },
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "GitHub",
+        "href": "https://github.com/agentclientprotocol/registry"
+      },
+      {
+        "label": "agentclientprotocol.com",
+        "href": "https://agentclientprotocol.com"
+      },
+      {
+        "label": "JetBrains",
+        "href": "https://jetbrains.com"
+      },
+      {
+        "label": "Zed Industries",
+        "href": "https://zed.dev"
+      }
+    ]
+  },
+  "navigation": {
+    "pages": [
+      "index",
+      "registry"
+    ]
+  },
+  "seo": {
+    "metatags": {
+      "og:image": "https://zed.dev/img/acp/og-dark.webp"
+    },
+    "indexing": "navigable"
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/agentclientprotocol/agent-client-protocol"
+    }
+  },
+  "contextual": {
+    "options": [
+      "copy",
+      "view"
+    ]
+  }
+}

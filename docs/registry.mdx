@@ -1,0 +1,123 @@
+---
+title: Registry Format
+description: Schema and format for the ACP agent registry.
+---
+
+The ACP Registry provides a machine-readable index of all registered agents.
+
+## Registry JSON
+
+The registry is published as a JSON file on every release:
+
+```
+https://github.com/agentclientprotocol/registry/releases/latest/download/registry.json
+```
+
+## Schema
+
+Each agent entry follows this schema:
+
+### Required Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `id` | string | Unique identifier (lowercase, hyphens allowed) |
+| `name` | string | Display name |
+| `version` | string | Semantic version (e.g., `1.0.0`) |
+| `description` | string | Brief description |
+| `distribution` | object | At least one distribution method |
+
+### Optional Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `repository` | string | Source code URL |
+| `authors` | array | List of author names/emails |
+| `license` | string | SPDX license identifier |
+
+## Distribution Types
+
+### Binary Distribution
+
+For standalone executables distributed as archives:
+
+```json
+{
+  "distribution": {
+    "binary": {
+      "darwin-aarch64": {
+        "archive": "https://github.com/.../release.zip",
+        "cmd": "./your-binary",
+        "args": ["acp"]
+      },
+      "linux-x86_64": {
+        "archive": "https://github.com/.../release.tar.gz",
+        "cmd": "./your-binary",
+        "args": ["acp"]
+      }
+    }
+  }
+}
+```
+
+**Supported platforms:** `darwin-aarch64`, `darwin-x86_64`, `linux-aarch64`, `linux-x86_64`, `windows-aarch64`, `windows-x86_64`
+
+### npm Package (npx)
+
+For packages published to npm:
+
+```json
+{
+  "distribution": {
+    "npx": {
+      "package": "@your-scope/your-package@1.0.0",
+      "args": ["--acp"]
+    }
+  }
+}
+```
+
+### PyPI Package (uvx)
+
+For packages published to PyPI:
+
+```json
+{
+  "distribution": {
+    "uvx": {
+      "package": "your-package",
+      "args": ["serve", "--acp"]
+    }
+  }
+}
+```
+
+## Example Entry
+
+```json
+{
+  "id": "my-agent",
+  "name": "My Agent",
+  "version": "1.0.0",
+  "description": "An example ACP agent",
+  "repository": "https://github.com/example/my-agent",
+  "authors": ["Example <example@example.com>"],
+  "license": "MIT",
+  "distribution": {
+    "npx": {
+      "package": "@example/my-agent@1.0.0",
+      "args": ["--acp"]
+    }
+  }
+}
+```
+
+## JSON Schema
+
+The full JSON Schema is available at:
+
+```
+https://github.com/agentclientprotocol/registry/releases/latest/download/agent.schema.json
+```
+
+Use it to validate your agent configuration before submitting.

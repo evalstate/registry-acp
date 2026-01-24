@@ -143,6 +143,9 @@ jobs:
           pip install jsonschema
           SKIP_URL_VALIDATION=1 python .github/workflows/build_registry.py
 
+      - name: Generate docs
+        run: python .github/workflows/generate_mintlify_agents.py
+
       - name: Generate commit message
         id: commit_msg
         run: |

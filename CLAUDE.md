@@ -110,3 +110,47 @@ Using `currentColor` enables icons to adapt to different themes (light/dark mode
 **Invalid patterns:**
 - Hardcoded colors: `fill="#FF5500"`, `fill="red"`, `stroke="rgb(0,0,0)"`
 - Missing currentColor: `fill` or `stroke` without `currentColor`
+
+## Documentation Site
+
+The registry has a documentation site built with [Mintlify](https://mintlify.com/) in the `docs/` folder.
+
+### Structure
+
+```
+docs/
+├── docs.json          # Mintlify configuration
+├── _index.mdx         # Template for index page (contains $$AGENTS_CARDS$$ placeholder)
+├── index.mdx          # Generated index page with agent cards
+├── registry.mdx       # Registry format documentation
+└── logo/              # Logo assets
+```
+
+### Commands
+
+```bash
+# Generate docs (regenerates index.mdx from template)
+uv run .github/workflows/generate_mintlify_agents.py
+
+# Run local dev server
+cd docs && npx mintlify dev --port 3000
+```
+
+### How It Works
+
+1. `_index.mdx` is a template containing `$$AGENTS_CARDS$$` placeholder
+2. `generate_mintlify_agents.py` reads all `agent.json` files from the registry
+3. Generates `<Card>` components for each agent with name, description, version, and icon
+4. Icons are inlined as sanitized SVG (converted to JSX-compatible attributes)
+5. Replaces placeholder and writes to `index.mdx`
+
+### Automation
+
+Docs are automatically regenerated when agent versions are updated:
+- The `update-versions.yml` workflow runs `generate_mintlify_agents.py` after applying updates
+- Changes to `docs/index.mdx` are committed along with version updates
+
+### Adding New Pages
+
+1. Create new `.mdx` file in `docs/`
+2. Add the page name (without extension) to `docs.json` navigation
