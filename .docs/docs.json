@@ -55,7 +55,8 @@
   "navigation": {
     "pages": [
       "index",
-      "registry"
+      "registry",
+      "contributing"
     ]
   },
   "seo": {

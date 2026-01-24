@@ -1,0 +1,75 @@
+---
+title: Add Your Agent
+description: How to submit your agent to the registry
+---
+
+## Quick Start
+
+1. Fork the [registry repository](https://github.com/agentclientprotocol/registry)
+
+2. Create a directory matching your agent's ID:
+   ```
+   mkdir your-agent-id/
+   ```
+
+3. Add `agent.json` (or `extension.json` for extensions):
+   ```json
+   {
+     "id": "your-agent-id",
+     "name": "Your Agent Name",
+     "version": "1.0.0",
+     "description": "Brief description",
+     "repository": "https://github.com/...",
+     "license": "MIT",
+     "distribution": {
+       "npx": {
+         "package": "@your-scope/package@1.0.0"
+       }
+     }
+   }
+   ```
+
+4. Add `icon.svg` (optional but recommended):
+   - 16x16 pixels
+   - Monochrome using `currentColor`
+
+5. Submit a Pull Request
+
+## Distribution Options
+
+**Binary**
+```json
+{ "binary": { "darwin-aarch64": { "archive": "https://...", "cmd": "./binary" } } }
+```
+
+**npx**
+```json
+{ "npx": { "package": "@scope/pkg@1.0.0", "args": ["--acp"] } }
+```
+
+**uvx**
+```json
+{ "uvx": { "package": "pkg==1.0.0", "args": ["--acp"] } }
+```
+
+## Validation
+
+CI automatically validates:
+- Schema compliance
+- Version matching (distribution must match agent version)
+- URL accessibility (packages must exist)
+- Icon requirements (16x16, monochrome)
+
+## Automatic Updates
+
+Once your agent is in the registry, **versions are updated automatically**. The registry checks for new releases on npm, PyPI, and GitHub once per hour.
+
+You don't need to submit a PR for version bumps.
+
+## Full Guide
+
+For complete documentation including all fields, validation rules, and examples:
+
+<Card title="Contributing Guide" icon="github" href="https://github.com/agentclientprotocol/registry/blob/main/CONTRIBUTING.md">
+  Full contributing documentation on GitHub
+</Card>

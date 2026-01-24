@@ -121,9 +121,19 @@ Supported platforms: `darwin-aarch64`, `darwin-x86_64`, `linux-aarch64`, `linux-
 | `authors` | array | List of author names/emails |
 | `license` | string | SPDX license identifier |
 
-## Updating an Existing Entry
+## Automatic Version Updates
 
-To update your agent or extension's version or distribution URLs:
+Once your agent is in the registry, **versions are updated automatically every hour**. The registry checks for new releases on:
+
+- **npm** - latest published version
+- **PyPI** - latest published version
+- **GitHub Releases** - latest release tag and assets
+
+You don't need to submit a PR for version bumps.
+
+## Manual Updates
+
+To manually update your agent or extension (e.g., changing description, adding platforms):
 
 1. Fork and update the `agent.json` or `extension.json` file
 2. Submit a Pull Request
