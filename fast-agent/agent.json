@@ -1,0 +1,16 @@
+{
+  "id": "fast-agent",
+  "name": "fast-agent",
+  "version": "0.4.50",
+  "description": "Customisable Agents with comprehensive provider support",
+  "repository": "https://github.com/evalstate/fast-agent",
+  "authors": ["enquiries@fast-agent.ai"],
+  "license": "Apache 2.0",
+  "distribution": {
+     "uvx": {
+      "package": "fast-agent",
+      "args": ["acp", "-x"]
+    }
+  }
+}
+
