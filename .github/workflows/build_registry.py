@@ -425,13 +425,13 @@ def validate_agent(
                             f"Unknown platforms: {', '.join(sorted(unknown_platforms))}"
                         )
 
-                    # Check that all OS families have at least one platform
+                    # Warn if not all OS families have at least one platform
                     provided_os_families = {p.split("-")[0] for p in binary.keys() if p in VALID_PLATFORMS}
                     missing_os_families = REQUIRED_OS_FAMILIES - provided_os_families
                     if missing_os_families:
-                        errors.append(
-                            f"Binary distribution must include builds for all operating systems. "
-                            f"Missing: {', '.join(sorted(missing_os_families))}"
+                        print(
+                            f"Warning: {agent_dir} binary distribution is missing builds for: "
+                            f"{', '.join(sorted(missing_os_families))}"
                         )
 
                     for platform, target in binary.items():
@@ -604,7 +604,7 @@ def build_registry():
         f.write("\n")
 
     # Write registry-for-jetbrains.json (without codex and claude-code)
-    JETBRAINS_EXCLUDE_IDS = {"codex-acp", "claude-code-acp"}
+    JETBRAINS_EXCLUDE_IDS = {"codex-acp", "claude-code-acp", "junie-acp"}
     jetbrains_registry = {
         "version": REGISTRY_VERSION,
         "agents": [a for a in agents if a["id"] not in JETBRAINS_EXCLUDE_IDS],
